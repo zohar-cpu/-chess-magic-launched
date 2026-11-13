@@ -32,7 +32,15 @@ export default async function handler(req, res) {
   const { ok, errors, lead } = validateLead(body);
   if (!ok) return send(res, 422, { ok: false, error: "Please check the highlighted fields.", fields: errors });
 
+  // Test registrations: an organization name starting with "[TEST]" is saved with the
+  // Test Record box checked (no secret key needed). A LAUNCHED_TEST_KEY, if configured,
+  // is still accepted for automated scripts.
   lead.isTest = false;
+  const testPrefix = /^\s*\[TEST\]\s*/i;
+  if (testPrefix.test(lead.orgName)) {
+    lead.orgName = lead.orgName.replace(testPrefix, "").trim() || "Test Organization";
+    lead.isTest = true;
+  }
   if (body.testKey !== undefined) {
     const k = process.env.LAUNCHED_TEST_KEY || "";
     if (!k || typeof body.testKey !== "string" || body.testKey.length !== k.length ||
@@ -41,7 +49,7 @@ export default async function handler(req, res) {
   }
 
   if (!notionConfigured()) {
-    console.error("[leads] Notion not configured (NOTION_API_TOKEN / NOTION_DATA_SOURCE_ID / LAUNCHED_ACTION_SECRET).");
+    console.error("[leads] Notion not configured (NOTION_API_TOKEN / NOTION_DATA_SOURCE_ID).");
     return send(res, 503, { ok: false, error: "Our registration service is temporarily unavailable." });
   }
 
