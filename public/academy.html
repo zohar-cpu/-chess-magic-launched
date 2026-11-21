@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ChessMagic · Free 30-Day Pilot or 30% Off Your First Year</title>
+<meta name="description" content="Start a free 30-day ChessMagic pilot, or save 30% on your first year of annual student licenses. For School Districts, Charter Schools and Charter School Networks.">
+<meta name="theme-color" content="#0E1C41">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="ChessMagic: Free 30-Day Pilot or 30% Off Your First Year">
+<meta property="og:description" content="Try ChessMagic free for 30 days, or save 30% on your first year of annual student licenses.">
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/nunito-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  /* Deployment config. */
+  window.CHESS_MAGIC_CONFIG = {
+    apiBase: "/api/academy",
+    campaign: "academy-2026",
+    /* Offer window comes from the server (/api/config, set by CAMPAIGN_LAUNCH_DATE). */
+    legal: {"termsVersion": "PILOT-TERMS-DRAFT-2026-11-18", "privacyVersion": "PRIVACY-NOTICE-DRAFT-2026-11-18", "status": "draft"},
+    preview: true,       /* PREVIEW: registration switched off; nothing is sent or stored */
+    offer: { status: "active", launchDate: null, endsDate: null }
+  };
+</script>
+<script>
+/* PREVIEW ONLY: registration is switched off. No request leaves the browser. */
+window.__previewApi = function(path){
+  var e = new Error("Quote requests are not open yet. Nothing was sent or stored.");
+  if (path === "/pilot-register") e.closed = true;
+  return Promise.reject(e);
+};
+</script>
+<style>
+  /* Self-hosted fonts (SIL Open Font License): no third-party requests from visitors' browsers. */
+  @font-face{font-family:"Nunito";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/nunito-latin-800-normal.woff2) format("woff2")}
+  @font-face{font-family:"Nunito";font-style:normal;font-weight:900;font-display:swap;src:url(/fonts/nunito-latin-900-normal.woff2) format("woff2")}
+  @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plus-jakarta-sans-latin-400-normal.woff2) format("woff2")}
+  @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/plus-jakarta-sans-latin-500-normal.woff2) format("woff2")}
+  @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plus-jakarta-sans-latin-600-normal.woff2) format("woff2")}
+  @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/plus-jakarta-sans-latin-700-normal.woff2) format("woff2")}
+  @font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/plus-jakarta-sans-latin-800-normal.woff2) format("woff2")}
+  :root{
+    --navy:#0E1C41; --navy-2:#1C3474; --navy-3:#16295D;
+    --gold:#FEB630; --gold-600:#F2A50F; --gold-50:#FFF4D6; --gold-ink:#6B4100;
+    --blue:#1F62D0; --blue-600:#1A53B0; --blue-50:#EAF1FD;
+    --white:#FFFFFF; --soft:#F5F7FC; --ink:#172033; --ink-2:#3E4A63; --ink-3:#5B6780;
+    --line:#E2E8F0; --line-2:#CBD5E1;
+    --green:#15803D; --green-50:#E8F7EE; --red:#B42318; --red-50:#FEF0EE;
+    --r-sm:10px; --r:16px;
+    --display:"Nunito","Plus Jakarta Sans",system-ui,sans-serif;
+    --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --ring:0 0 0 2px #fff,0 0 0 5px var(--blue);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{margin:0;font:16px/1.55 var(--font);color:var(--ink);background:var(--white)}
+  img{max-width:100%;display:block}
+  a{color:var(--blue);text-underline-offset:2px}a:hover{color:var(--blue-600)}
+  :focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px}
+  .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+  [hidden]{display:none!important}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:12px;border:1.5px solid transparent;font:700 15px/1.15 var(--font);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s,color .15s}
+  .btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:var(--gold-600);color:var(--navy)}
+  .btn-line-dark{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}.btn-line-dark:hover{border-color:#fff;background:rgba(255,255,255,.06);color:#fff}
+  .btn-line{background:#fff;color:var(--navy);border-color:var(--line-2)}.btn-line:hover{border-color:var(--navy)}
+  .btn-off{background:var(--soft);color:var(--ink-3);border-color:var(--line);cursor:not-allowed}
+  .btn[disabled]:not(.btn-off){opacity:.7;cursor:progress}
+  .btn-block{width:100%;min-height:52px}
+  .link{background:none;border:0;padding:6px 0;font:700 14px var(--font);color:var(--blue);cursor:pointer;text-align:left}
+  .link:hover{color:var(--blue-600);text-decoration:underline}
+
+  /* Header + hero */
+  .hero{position:relative;background:radial-gradient(1100px 520px at 50% -10%,var(--navy-2) 0%,var(--navy) 62%);color:#fff;overflow:hidden}
+  .top{position:relative;z-index:3;height:76px;display:flex;align-items:center;justify-content:space-between}
+  .top img{height:54px;width:auto}
+  .top nav{display:flex;gap:6px;align-items:center}
+  .top nav .link{color:#D3DBEA;padding:12px 10px}.top nav .link:hover{color:#fff}
+  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center;padding:28px 0 220px}
+  .eyebrow{margin:0 0 14px;font-size:13.5px;font-weight:800;letter-spacing:.02em;color:var(--gold)}
+  h1{margin:0;font:900 62px/1.02 var(--display);letter-spacing:-.02em}
+  h1 em{font-style:normal;color:var(--gold)}
+  .lede{margin:18px 0 0;max-width:540px;font-size:19px;line-height:1.55;color:#D3DBEA}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .hero-cta .btn{min-height:54px;padding:0 26px;font-size:16px}
+  .hero-note{margin:14px 0 0;font-size:14px;color:#AFC0DE}
+  .art{position:relative;height:440px}
+  .art img{position:absolute;user-select:none;pointer-events:none}
+  .a-laptop{width:430px;left:50%;top:48%;transform:translate(-44%,-50%);animation:float 7s ease-in-out infinite}
+  .a-knight{height:250px;left:2%;bottom:6px;z-index:2}
+  .a-rook{width:132px;right:0;top:0;animation:float 6s ease-in-out infinite reverse}
+  .a-bishop{width:104px;right:6%;bottom:12px;animation:float 8s ease-in-out infinite}
+  .a-rock{width:150px;left:8%;top:-6px;opacity:.9}
+  @keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+  .clouds{position:absolute;left:0;right:0;bottom:-2px;z-index:1;aspect-ratio:1918/514;max-height:430px;background:url(/art/desktop-clouds-white-bottom.webp) center bottom/100% 100% no-repeat}
+
+  /* Tabs */
+  .gs{position:relative;background:var(--white)}
+  .tabs-wrap{position:relative;z-index:4;margin-top:-58px}
+  .tabs{display:flex;gap:4px;padding:5px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(14,28,65,.06),0 12px 28px -18px rgba(14,28,65,.35)}
+  .tab{flex:1 1 0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:74px;padding:12px 18px;border:0;border-radius:13px;background:transparent;font-family:var(--font);text-align:left;cursor:pointer;color:var(--ink-2)}
+  .tab:hover{background:var(--soft)}
+  .tab .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:800 17px/1.2 var(--font);color:var(--navy)}
+  .tab .s{font-size:13.5px;font-weight:500}
+  .tab .sm{display:none}
+  .tab[aria-selected="true"]{background:var(--navy);color:#C9D4EA}
+  .tab[aria-selected="true"] .t{color:#fff}
+  .badge{display:inline-block;font:800 11.5px/1 var(--font);background:var(--gold);color:var(--navy);padding:5px 8px;border-radius:999px}
+  .panels{padding-top:36px;padding-bottom:88px}
+
+  /* Layout */
+  .p-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:44px;align-items:start}
+  .o-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px}
+  .panel h3{margin:0;font:800 19px/1.3 var(--font);color:var(--navy)}
+  .stack{display:flex;flex-direction:column;gap:18px}
+  h2.side{margin:0;font:900 30px/1.15 var(--display);color:var(--navy);letter-spacing:-.01em}
+  .checks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;font-size:15.5px;line-height:1.45}
+  .checks li{display:flex;gap:10px}
+  .checks svg{flex:none;margin-top:2px}
+  .note{border-top:1px solid var(--line);padding-top:18px}
+  .note b{display:block;color:var(--navy);margin-bottom:4px}
+  .note p{margin:0;color:var(--ink-2);font-size:14.5px}
+  .side-art{display:flex;align-items:flex-end;gap:12px;margin-top:4px}
+  .side-art img{width:150px;height:auto}
+  .muted{margin:0;font-size:13px;line-height:1.55;color:var(--ink-3)}
+  .small{margin:0;font-size:14px;color:var(--ink-2)}
+
+  /* Progress */
+  .progress{margin:0;padding:0;list-style:none;display:flex;gap:12px}
+  .progress li{flex:1 1 0;display:flex;align-items:center;gap:8px;min-width:0;font-size:13.5px;font-weight:700;color:var(--ink-3)}
+  .progress .dot{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;background:#E9EDF3;color:var(--ink-3)}
+  .progress li[data-state="current"]{color:var(--navy)}
+  .progress li[data-state="current"] .dot{background:var(--blue);color:#fff}
+  .progress li[data-state="done"]{color:var(--navy)}
+  .progress li[data-state="done"] .dot{background:var(--green);color:#fff}
+  .progress .lbl-s{display:none}
+
+  /* Fields */
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+  .full{grid-column:1/-1}
+  .f label{display:block;font:700 14px var(--font);color:var(--navy);margin-bottom:6px}
+  .f .opt{font-weight:500;color:var(--ink-3)}
+  .inp{width:100%;min-height:50px;border:1.5px solid var(--line-2);border-radius:var(--r-sm);padding:0 14px;font:16px var(--font);color:var(--ink);background:#fff;transition:border-color .15s}
+  select.inp{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233E4A63' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 14px center no-repeat;padding-right:40px}
+  .inp:hover{border-color:#94A3B8}.inp:focus{border-color:var(--blue)}
+  .inp:focus-visible{box-shadow:0 0 0 3px rgba(31,98,208,.25);border-radius:var(--r-sm)}
+  .f .err{display:none;margin:6px 0 0;font-size:13.5px;font-weight:600;color:var(--red)}
+  .f.invalid .inp{border-color:var(--red)}
+  .f.invalid .err{display:block}
+  .check{display:flex;gap:12px;font-size:14.5px;line-height:1.5;cursor:pointer;padding:2px 0}
+  .check input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--blue);cursor:pointer}
+  .check.invalid span{color:var(--red)}
+  .check.invalid input{outline:2px solid var(--red);outline-offset:1px}
+  fieldset{border:0;margin:0;padding:0;min-width:0}
+  legend{padding:0;margin-bottom:10px;font:800 15px var(--font);color:var(--navy)}
+  .acks{display:flex;flex-direction:column;gap:14px}
+  .alert{display:none;margin:0;padding:12px 14px;border-radius:var(--r-sm);font-size:14px;line-height:1.5;background:var(--red-50);color:var(--red);font-weight:600}
+  .alert.show{display:block}
+  .info{margin:0;padding:12px 14px;border-radius:var(--r-sm);font-size:13.5px;line-height:1.5;background:var(--gold-50);color:var(--gold-ink)}
+  .recap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-sm);background:var(--soft);font-size:14px}
+  .recap b{color:var(--navy)}
+  .row-btns{display:flex;gap:12px}
+  .row-btns .btn-gold{flex:1 1 auto}
+
+  /* Calculator */
+  .qty{display:flex;gap:8px;align-items:center}
+  .qty .btn{min-width:52px;padding:0;font-size:22px;font-weight:600}
+  .qty .inp{text-align:center;font-weight:800;font-size:20px;max-width:220px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{min-height:44px;padding:0 14px;border-radius:10px;border:1.5px solid var(--line-2);background:#fff;font:700 14px var(--font);color:var(--navy);cursor:pointer}
+  .chip:hover{border-color:var(--navy)}
+  .chip[aria-pressed="true"]{border-color:var(--navy);background:var(--soft)}
+  .sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+  .sum>div{display:flex;flex-direction:column;gap:4px;padding:14px 16px}
+  .sum>div+div{border-left:1px solid var(--line)}
+  .sum .k{font-size:13px;font-weight:700;color:var(--ink-3)}
+  .sum .v{font-size:20px;font-weight:800;color:var(--ink-3)}
+  .sum .std .v{text-decoration:line-through;font-weight:700}
+  .sum .now{background:var(--soft)}
+  .sum .now .k{color:var(--navy)}
+  .sum .now .v{font-size:24px;color:var(--navy)}
+  .sum .save .v{color:var(--gold-ink)}
+  .sum .save .v span{background:var(--gold-50);padding:2px 8px;border-radius:8px}
+  .unit{margin:0;font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .unit s{color:var(--ink-3)}
+  .tiers{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+  .tiers th,.tiers td{padding:8px 10px;text-align:right;border-top:1px solid var(--line)}
+  .tiers th:first-child,.tiers td:first-child{text-align:left}
+  .tiers thead th{border-top:0;font-size:12.5px;color:var(--ink-3);font-weight:700}
+  .tiers tr[aria-current="true"] td{background:var(--blue-50);font-weight:800;color:var(--navy)}
+  details.tiers-d summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--blue);padding:4px 0;min-height:32px}
+
+  /* Confirmation */
+  .done{display:flex;flex-direction:column;gap:16px}
+  .done:focus{outline:none}
+  .done-h{display:flex;gap:12px;align-items:flex-start}
+  .done-h .ic{flex:none;width:42px;height:42px;border-radius:50%;background:var(--green-50);display:grid;place-items:center}
+  .done-h p{margin:0}
+  .done-t{font:800 21px/1.25 var(--font);color:var(--navy)}
+  .ref{font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+  .next{border:1px solid var(--line);border-radius:12px;padding:16px}
+  .next p{margin:0 0 10px;font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--ink-3)}
+  .next ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14.5px}
+
+  .preview-bar{position:sticky;top:0;z-index:20;background:var(--gold);color:var(--navy);font:700 13.5px/1.4 var(--font);text-align:center;padding:8px 12px}
+  footer{border-top:1px solid var(--line);background:#fff}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:20px;padding-bottom:24px;font-size:13px;color:var(--ink-3)}
+
+  /* Tablet */
+  @media (max-width:1040px){
+    h1{font-size:52px}
+    .a-laptop{width:360px}.a-knight{height:210px}
+    .hero-grid{padding-bottom:190px}
+  }
+  /* Mobile */
+  @media (max-width:760px){
+    .wrap{padding:0 16px}
+    .top{height:64px}.top img{height:44px}
+    .top nav .link{display:none}
+    .top nav .btn{min-height:44px;padding:0 14px;font-size:14px}
+    .hero-grid{grid-template-columns:minmax(0,1fr);gap:0;padding:14px 0 84px}
+    h1{font-size:40px}
+    .lede{font-size:16.5px;margin-top:12px}
+    .hero-cta{display:none}
+    .art{height:232px;margin-top:10px}
+    .a-laptop{width:250px;top:52%;transform:translate(-40%,-50%)}
+    .a-knight{height:150px;left:0;bottom:0}
+    .a-rook{width:78px;top:4px}
+    .a-bishop,.a-rock{display:none}
+    .tabs-wrap{margin-top:-40px;position:sticky;top:0}
+    .tabs{border-radius:16px}
+    .tab{min-height:64px;padding:10px 12px}
+    .tab .t{font-size:15px}.tab .s{font-size:12.5px}
+    .tab .badge,.tab .lg{display:none}.tab .sm{display:inline}
+    .panels{padding-top:20px;padding-bottom:48px}
+    .p-grid,.o-grid,.grid2{grid-template-columns:minmax(0,1fr);gap:16px}
+    .panel{padding:20px 18px}
+    h2.side{font-size:24px}
+    .p-intro .checks li:nth-child(n+3),.p-intro .note,.p-intro .side-art{display:none}
+    .progress{gap:8px}.progress li{font-size:12.5px}
+    .progress .lbl-l{display:none}.progress .lbl-s{display:inline}
+    .row-btns{flex-direction:column-reverse}.row-btns .btn{width:100%}
+    .qty .inp{max-width:none;flex:1 1 auto}
+    .sum{grid-template-columns:minmax(0,1fr)}
+    .sum>div{flex-direction:row;justify-content:space-between;align-items:center}
+    .sum>div+div{border-left:0;border-top:1px solid var(--line)}
+    .btn{min-height:52px;font-size:16px}
+    .inp{min-height:52px}
+  }
+</style>
+</head>
+<body>
+<div class="preview-bar" id="previewBar" hidden>Preview · Registration is not open yet · Nothing you enter is sent or stored</div>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="top">
+      <a href="#top" aria-label="Chess Magic home"><img src="/logo-wordmark.png" alt="Chess Magic" width="152" height="68"></a>
+      <nav aria-label="Primary">
+        <button type="button" class="link" data-go="offer">Pricing</button>
+        <button type="button" class="btn btn-gold" data-go="pilot">Start free pilot</button>
+      </nav>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">ChessMagic · For U.S. School Districts &amp; Charter Schools</p>
+        <h1>Make Every Move <em>Count.</em></h1>
+        <p class="lede">Start with a free 30-day pilot, or save 30% on your first year of annual student licenses.</p>
+        <div class="hero-cta">
+          <button type="button" class="btn btn-gold" data-go="pilot">Start free 30-day pilot</button>
+          <button type="button" class="btn btn-line-dark" data-go="offer">See first-year pricing</button>
+        </div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <img class="a-rock" src="/art/rock-left.webp" alt="">
+        <img class="a-rook" src="/art/island-rook.webp" alt="">
+        <img class="a-laptop" src="/art/laptop-island.webp" alt="" fetchpriority="high">
+        <img class="a-bishop" src="/art/island-bishop.webp" alt="">
+        <img class="a-knight" src="/art/knight.webp" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="clouds" aria-hidden="true"></div>
+</header>
+
+<main class="gs" id="get-started">
+  <div class="wrap tabs-wrap">
+    <h2 class="sr" id="gs-h">Choose how you'd like to start</h2>
+    <div class="tabs" role="tablist" aria-labelledby="gs-h">
+      <button type="button" class="tab" role="tab" id="tab-pilot" aria-controls="panel-pilot" aria-selected="true">
+        <span class="t">Free 30-Day Pilot</span>
+        <span class="s"><span class="lg">No cost · No purchase or license commitment</span><span class="sm">No cost or commitment</span></span>
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-offer" aria-controls="panel-offer" aria-selected="false" tabindex="-1">
+        <span class="t"><span class="lg">30% First-Year Licensing Offer</span><span class="sm">30% Offer</span> <span class="badge">Save 30%</span></span>
+        <span class="s"><span class="lg">Annual student licenses · Transparent pricing</span><span class="sm">Save 30% · first year</span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="wrap panels">
+    <!-- ============ FREE 30-DAY PILOT ============ -->
+    <section role="tabpanel" id="panel-pilot" aria-labelledby="tab-pilot" tabindex="-1">
+      <div class="p-grid">
+        <div class="stack p-intro">
+          <h2 class="side">Try ChessMagic free for 30 days</h2>
+          <ul class="checks">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>No cost, no payment details</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>No purchase and no annual license commitment</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Student platform and teacher dashboard</li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>No student information needed to request</li>
+          </ul>
+          <div class="note">
+            <b>Student accounts are never created automatically</b>
+            <p>After your request we confirm your school's approvals and, where required, a student data protection agreement. Your 30 days start only when accounts are activated.</p>
+          </div>
+          <div class="side-art" aria-hidden="true"><img src="/art/island-knight.webp" alt="" width="150" height="150" loading="lazy"></div>
+        </div>
+
+        <div class="panel">
+          <form id="pilotForm" class="stack" novalidate aria-labelledby="pf-h">
+            <h3 id="pf-h">Request your free pilot</h3>
+            <ol class="progress" id="pProgress" aria-label="Pilot request progress">
+              <li data-step="1" data-state="current" aria-current="step"><span class="dot">1</span><span class="lbl-l">School details</span><span class="lbl-s">School</span></li>
+              <li data-step="2"><span class="dot">2</span><span class="lbl-l">Acknowledgments</span><span class="lbl-s">Terms</span></li>
+              <li data-step="3"><span class="dot">3</span><span class="lbl-l">Confirmation</span><span class="lbl-s">Done</span></li>
+            </ol>
+            <p class="info" id="pDraftNote" hidden><b>Not yet open.</b> Pilot requests open once our Pilot Terms and Privacy Notice are approved. You can review the steps now; nothing is sent until then.</p>
+
+            <!-- Step 1 -->
+            <div id="pStep1" class="stack">
+              <p class="small">Tell us about your school. Please don't include any student names or student information.</p>
+              <div class="grid2">
+                <div class="f full"><label for="pOrgName">School or organization name</label><input class="inp" id="pOrgName" name="orgName" autocomplete="organization" maxlength="200" required aria-describedby="pOrgNameErr"><p class="err" id="pOrgNameErr">Enter your school or organization name.</p></div>
+                <div class="f"><label for="pFullName">Your full name</label><input class="inp" id="pFullName" name="fullName" autocomplete="name" maxlength="120" required aria-describedby="pFullNameErr"><p class="err" id="pFullNameErr">Enter your full name.</p></div>
+                <div class="f"><label for="pEmail">Work email</label><input class="inp" id="pEmail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required placeholder="name@school.org" aria-describedby="pEmailErr"><p class="err" id="pEmailErr">Enter a valid work email address.</p></div>
+                <div class="f"><label for="pJobTitle">Role or job title</label><input class="inp" id="pJobTitle" name="jobTitle" autocomplete="organization-title" maxlength="120" required aria-describedby="pJobTitleErr"><p class="err" id="pJobTitleErr">Enter your role or job title.</p></div>
+                <div class="f"><label for="pState">State</label><select class="inp" id="pState" name="state" required aria-describedby="pStateErr"><option value="">Select state</option></select><p class="err" id="pStateErr">Select your state.</p></div>
+                <div class="f full"><label for="pStudents">Estimated number of students</label><input class="inp" id="pStudents" name="pilotStudents" inputmode="numeric" maxlength="7" required style="max-width:240px" aria-describedby="pStudentsErr"><p class="err" id="pStudentsErr">Enter a number between 1 and 100,000.</p></div>
+              </div>
+              <input type="text" id="pWebsite" name="website" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+              <button type="button" class="btn btn-gold btn-block" id="pNext">Continue</button>
+              <p class="muted" style="text-align:center">Step 1 of 3 · About 2 minutes in total</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="pStep2" class="stack" hidden>
+              <div class="recap"><span id="pRecap"></span><button type="button" class="link" id="pEdit">Edit<span class="sr"> school details</span></button></div>
+              <fieldset class="acks">
+                <legend id="pAckH" tabindex="-1">Required to request a pilot</legend>
+                <label class="check"><input type="checkbox" id="cTerms"><span data-consent="terms">I have read and accept the <a href="/legal/pilot-terms.html" target="_blank" rel="noopener">ChessMagic Academy 30-Day Pilot Terms of Use</a>.</span></label>
+                <label class="check"><input type="checkbox" id="cPrivacy"><span data-consent="privacy">I acknowledge the <a href="/legal/privacy-notice.html" target="_blank" rel="noopener">Chess-Magic Inc. Privacy Notice</a>, which explains how the information in this form is used.</span></label>
+                <label class="check"><input type="checkbox" id="cAuth"><span data-consent="authority">I confirm that I am authorized by my school or organization to request this pilot. I understand that no student accounts will be activated, and no student information may be shared with Chess-Magic Inc., until my school or organization has given all required approvals and any required student data protection agreement has been signed.</span></label>
+              </fieldset>
+              <label class="check" style="border-top:1px solid var(--line);padding-top:14px;color:var(--ink-2);font-size:14px"><input type="checkbox" id="cMarketing"><span data-consent="marketing">Optional: send me occasional emails about ChessMagic Academy news and offers. I can unsubscribe at any time. This is not required for the pilot.</span></label>
+              <p class="small">A pilot request is not a purchase and creates no annual license commitment.</p>
+              <p class="alert" id="pError" role="alert"></p>
+              <div class="row-btns">
+                <button type="button" class="btn btn-line" id="pBack">Back</button>
+                <button type="submit" class="btn btn-gold btn-block" id="pSubmit">Request free pilot</button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Step 3 -->
+          <div id="pDone" class="done" hidden tabindex="-1" role="status" aria-live="polite">
+            <div class="done-h">
+              <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <div><p class="done-t" id="pDoneT">Your pilot request has been received</p><p class="small" style="margin-top:6px">Reference <span class="ref" id="pRef"></span>. Keep it for your records.</p></div>
+            </div>
+            <div class="next">
+              <p>WHAT HAPPENS NEXT</p>
+              <ol>
+                <li>A ChessMagic team member contacts you to confirm your school's approvals.</li>
+                <li>Where required, your school and Chess-Magic Inc. sign a student data protection agreement.</li>
+                <li>Student accounts are activated only then, and your 30 days begin.</li>
+              </ol>
+            </div>
+            <p class="small">No student accounts have been created. This request is not a purchase and creates no license commitment.</p>
+            <button type="button" class="link" data-go="offer">Also curious about pricing? See the 30% first-year offer</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 30% FIRST-YEAR LICENSING OFFER ============ -->
+    <section role="tabpanel" id="panel-offer" aria-labelledby="tab-offer" tabindex="-1" hidden>
+      <div class="o-grid">
+        <div class="panel stack" aria-labelledby="calc-h">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><h3 id="calc-h">Price your first year</h3><span class="muted" id="tierLbl" aria-live="polite"></span></div>
+          <div class="f">
+            <label for="lic">Number of student licenses</label>
+            <div class="qty">
+              <button type="button" class="btn btn-line" id="licDec" aria-label="Decrease by 50">−</button>
+              <input class="inp" id="lic" inputmode="numeric" maxlength="9" value="1,000" aria-describedby="licErr">
+              <button type="button" class="btn btn-line" id="licInc" aria-label="Increase by 50">+</button>
+            </div>
+            <p class="err" id="licErr">Enter a whole number of students.</p>
+            <div class="chips" role="group" aria-label="Common sizes">
+              <button type="button" class="chip" data-n="250">250</button>
+              <button type="button" class="chip" data-n="1000">1,000</button>
+              <button type="button" class="chip" data-n="5000">5,000</button>
+              <button type="button" class="chip" data-n="20000">20,000</button>
+            </div>
+          </div>
+          <div class="sum" aria-live="polite">
+            <div class="std"><span class="k">Standard annual price</span><span class="v" id="stdTotal"></span></div>
+            <div class="now"><span class="k">Your first-year price</span><span class="v" id="evtTotal"></span></div>
+            <div class="save"><span class="k">You save</span><span class="v"><span id="saveTotal"></span></span></div>
+          </div>
+          <p class="unit" id="unitLine"></p>
+          <p class="info" id="offerNote" hidden></p>
+          <p class="info" id="customNote" hidden>For fewer than 50 or more than 100,000 students we offer custom pricing. Request a quote and our team will prepare one.</p>
+          <details class="tiers-d">
+            <summary>See how your price is calculated</summary>
+            <table class="tiers" aria-label="Annual price per student">
+              <thead><tr><th scope="col">Students</th><th scope="col">Standard</th><th scope="col" id="fyHead">First year (−30%)</th><th scope="col">Your licenses</th></tr></thead>
+              <tbody id="tierRows"></tbody>
+            </table>
+          </details>
+          <p class="muted" id="offerTerms"><span id="windowTxt"></span>Each rate applies only to the licenses within its tier. The 30% discount applies to the first year of annual licenses only; renewals are at the standard annual price, subject to your contract terms. Prices in USD, excluding applicable taxes. Final pricing is set in your signed order form.</p>
+        </div>
+
+        <div class="panel">
+          <form id="quoteForm" class="stack" novalidate aria-labelledby="qf-h">
+            <h3 id="qf-h">Request your first-year quote</h3>
+            <p class="small">We'll prepare a formal quote at the price shown for your procurement team.</p>
+            <div class="grid2">
+              <div class="f full"><label for="qOrg">Organization name</label><input class="inp" id="qOrg" autocomplete="organization" maxlength="200" aria-describedby="qOrgErr"><p class="err" id="qOrgErr">Enter your organization name.</p></div>
+              <div class="f"><label for="qName">Your full name</label><input class="inp" id="qName" autocomplete="name" maxlength="120" aria-describedby="qNameErr"><p class="err" id="qNameErr">Enter your full name.</p></div>
+              <div class="f"><label for="qEmail">Work email</label><input class="inp" id="qEmail" type="email" inputmode="email" autocomplete="email" maxlength="200" aria-describedby="qEmailErr"><p class="err" id="qEmailErr">Enter a valid work email address.</p></div>
+              <div class="f"><label for="qRole">Role or job title</label><input class="inp" id="qRole" autocomplete="organization-title" maxlength="120" aria-describedby="qRoleErr"><p class="err" id="qRoleErr">Enter your role or job title.</p></div>
+              <div class="f"><label for="qType">Organization type</label><select class="inp" id="qType" aria-describedby="qTypeErr"><option value="">Select type</option><option>School District</option><option>Charter School</option><option>Charter School Network</option></select><p class="err" id="qTypeErr">Select your organization type.</p></div>
+              <div class="f"><label for="qState">State</label><select class="inp" id="qState" aria-describedby="qStateErr"><option value="">Select state</option></select><p class="err" id="qStateErr">Select your state.</p></div>
+              <div class="f"><label for="qLic">Student licenses</label><input class="inp" id="qLic" readonly aria-describedby="qLicHelp"><p class="muted" id="qLicHelp" style="margin-top:6px">Change the number in the calculator.</p></div>
+            </div>
+            <label class="check" id="qConsentChk"><input type="checkbox" id="qConsent"><span>I agree that Chess Magic may store my details and contact me about this quote.</span></label>
+            <input type="text" id="qWebsite" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+            <p class="alert" id="qError" role="alert"></p>
+            <button type="submit" class="btn btn-gold btn-block" id="qSubmit">Request my first-year quote</button>
+            <div class="stack" style="gap:8px;border-top:1px solid var(--line);padding-top:16px">
+              <button type="button" class="btn btn-off btn-block" disabled aria-describedby="signNote">Review &amp; sign license agreement</button>
+              <p class="muted" id="signNote">Online signing opens after the license agreement and pricing are approved by counsel. A quote request is not a binding commitment.</p>
+            </div>
+          </form>
+
+          <div id="qDone" class="done" hidden tabindex="-1" role="status" aria-live="polite">
+            <div class="done-h">
+              <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <div><p class="done-t" id="qDoneT">Your quote request has been received</p><p class="small" style="margin-top:6px">Reference <span class="ref" id="qRef"></span>. Keep it for your records.</p></div>
+            </div>
+            <div class="sum" id="qDoneSum"></div>
+            <div class="next">
+              <p>WHAT HAPPENS NEXT</p>
+              <ol>
+                <li>Our team prepares a formal quote at your first-year price.</li>
+                <li>You review it with your procurement team. Nothing is binding until an order form is signed.</li>
+              </ol>
+            </div>
+            <button type="button" class="link" data-go="pilot">Prefer to try it first? Request a free 30-day pilot</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Chess-Magic Inc.</span>
+    <span><a href="/legal/pilot-terms.html">Pilot Terms</a> · <a href="/legal/privacy-notice.html">Privacy Notice</a> (pending legal approval)</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var CFG = window.CHESS_MAGIC_CONFIG || {};
+  var $ = function(id){ return document.getElementById(id); };
+  var STATES = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+  var FREE = ["gmail.com","googlemail.com","yahoo.com","hotmail.com","outlook.com","live.com","msn.com","aol.com","icloud.com","me.com","mac.com","proton.me","protonmail.com","gmx.com","mail.com","yandex.com","zoho.com"];
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  /* Must match lib/pricing.js (progressive/marginal; the server recalculates and never trusts these numbers). */
+  var TIERS = [[1,500,7500],[501,5000,3000],[5001,25000,2500],[25001,100000,1500]], DISCOUNT = 30; /* bands; minimum order 50 */
+  var fmtInt = new Intl.NumberFormat("en-US");
+  var usd = function(c){ return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(c/100); };
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); };
+  function uuid(){ try { return crypto.randomUUID(); } catch(e){ return "id-" + Date.now() + "-" + Math.random().toString(16).slice(2); } }
+  function intOrNaN(v){ v = String(v == null ? "" : v).replace(/[,\s]/g, ""); return /^\d{1,7}$/.test(v) ? parseInt(v, 10) : NaN; }
+  function utm(){ var o = {}; try { var u = new URL(location.href); ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(function(k){ var v = u.searchParams.get(k); if (v) o[k] = v.slice(0,100); }); } catch(e){} return o; }
+
+  if (CFG.preview) $("previewBar").hidden = false;
+  STATES.forEach(function(s){ ["pState","qState"].forEach(function(id){ var o = document.createElement("option"); o.textContent = s; $(id).appendChild(o); }); });
+  $("yr").textContent = new Date().getFullYear();
+
+  /* ---------- Tabs (both panels stay in the page, so nothing typed is lost when switching) ---------- */
+  var tabs = [$("tab-pilot"), $("tab-offer")];
+  function select(name, opts){
+    opts = opts || {};
+    tabs.forEach(function(t){
+      var on = t.id === "tab-" + name;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      $(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    try {
+      var onRoute = /^\/(pilot|offer)\/?$/.test(location.pathname);
+      history.replaceState(null, "", onRoute ? "/" + name + location.search : location.pathname + location.search + "#" + name);
+    } catch(e){}
+    if (opts.focusTab) $("tab-" + name).focus();
+    if (opts.scroll) $("get-started").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener("click", function(){ select(t.id.slice(4)); });
+    t.addEventListener("keydown", function(e){
+      var k = e.key, j = null;
+      if (k === "ArrowRight" || k === "ArrowLeft") j = (i + 1) % 2;
+      if (k === "Home") j = 0; if (k === "End") j = 1;
+      if (j !== null){ e.preventDefault(); select(tabs[j].id.slice(4), { focusTab: true }); }
+    });
+  });
+  document.addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest("[data-go]"); if (!b) return;
+    select(b.getAttribute("data-go"), { scroll: true });
+  });
+  (function initialTab(){
+    var h = (location.hash || "").slice(1), q = null;
+    try { q = new URL(location.href).searchParams.get("option"); } catch(e){}
+    var path = location.pathname.replace(/\/+$/, "");
+    select(path === "/offer" || h === "offer" || q === "offer" ? "offer" : "pilot");
+  })();
+
+  /* ---------- Shared helpers ---------- */
+  function setInvalid(input, bad, msg){
+    var f = input.closest(".f"); if (f) f.classList.toggle("invalid", bad);
+    if (msg){ var e = $(input.id + "Err"); if (e) e.textContent = msg; }
+    input.setAttribute("aria-invalid", bad ? "true" : "false");
+    return !bad;
+  }
+  document.addEventListener("input", function(e){ if (e.target.id === "lic") return; var f = e.target.closest && e.target.closest(".f.invalid"); if (f){ f.classList.remove("invalid"); e.target.setAttribute("aria-invalid","false"); } });
+  document.addEventListener("change", function(e){ var c = e.target.closest && e.target.closest(".check.invalid"); if (c && e.target.checked) c.classList.remove("invalid"); });
+  function checkEmail(input){
+    var em = input.value.trim().toLowerCase();
+    if (!EMAIL_RE.test(em)) return setInvalid(input, true, "Enter a valid work email address.");
+    if (FREE.indexOf(em.split("@")[1]) !== -1) return setInvalid(input, true, "Please use your work (school or district) email address.");
+    return setInvalid(input, false);
+  }
+  function showErr(id, msg){ var a = $(id); a.textContent = msg; a.classList.add("show"); }
+  function api(path, payload){
+    if (CFG.preview && window.__previewApi) return window.__previewApi(path, payload);
+    return fetch(CFG.apiBase.replace(/\/$/, "") + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){
+        if (!r.ok || !j || j.ok !== true){ var err = new Error((j && j.error) || ("Our service is unavailable right now (HTTP " + r.status + ").")); err.closed = !!(j && j.closed); err.fields = j && j.fields; throw err; }
+        return j;
+      }); }, function(){ throw new Error("We couldn't reach our server. Please check your connection and try again."); });
+  }
+
+  /* ---------- Free 30-Day Pilot ---------- */
+  var L = CFG.legal || {}, pSubmissionId = uuid(), pf = $("pilotForm");
+  if (L.status === "draft") $("pDraftNote").hidden = false;
+  function pStep(n){
+    $("pStep1").hidden = n !== 1; $("pStep2").hidden = n !== 2;
+    pf.hidden = n === 3; $("pDone").hidden = n !== 3;
+    Array.prototype.forEach.call($("pProgress").children, function(li){
+      var s = +li.getAttribute("data-step");
+      li.setAttribute("data-state", s < n ? "done" : s === n ? "current" : "todo");
+      if (s === n) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+      li.querySelector(".dot").textContent = s < n ? "✓" : String(s);
+    });
+    $("pDraftNote").hidden = !(L.status === "draft" && n !== 3);
+  }
+  function validateP1(){
+    var first = null;
+    function chk(ok, el, msg){ if (!setInvalid(el, !ok, msg) && !first) first = el; }
+    chk($("pOrgName").value.trim().length >= 2, $("pOrgName"));
+    chk($("pFullName").value.trim().length >= 2, $("pFullName"));
+    if (!checkEmail($("pEmail")) && !first) first = $("pEmail");
+    chk($("pJobTitle").value.trim().length >= 2, $("pJobTitle"));
+    chk(STATES.indexOf($("pState").value) !== -1, $("pState"));
+    var st = intOrNaN($("pStudents").value); chk(st >= 1 && st <= 100000, $("pStudents"));
+    if (first) first.focus();
+    return !first;
+  }
+  $("pNext").addEventListener("click", function(){
+    if (!validateP1()) return;
+    $("pRecap").innerHTML = "<b>" + esc($("pOrgName").value.trim()) + "</b><br>" + esc($("pState").value) + " · about " + fmtInt.format(intOrNaN($("pStudents").value)) + " students";
+    pStep(2); $("pAckH").focus();
+  });
+  function back(){ pStep(1); $("pOrgName").focus(); }
+  $("pEdit").addEventListener("click", back); $("pBack").addEventListener("click", back);
+  pf.addEventListener("submit", function(e){
+    e.preventDefault(); $("pError").classList.remove("show");
+    if ($("pStep2").hidden){ $("pNext").click(); return; }
+    var first = null;
+    ["cTerms","cPrivacy","cAuth"].forEach(function(id){ var ok = $(id).checked; $(id).closest(".check").classList.toggle("invalid", !ok); if (!ok && !first) first = $(id); });
+    if (first){ showErr("pError", "Please tick the three required acknowledgments to request your pilot."); first.focus(); return; }
+    if (!validateP1()){ pStep(1); validateP1(); return; }
+    var reg = {
+      submissionId: pSubmissionId,
+      orgName: $("pOrgName").value.trim(), fullName: $("pFullName").value.trim(), email: $("pEmail").value.trim(),
+      jobTitle: $("pJobTitle").value.trim(), state: $("pState").value, pilotStudents: intOrNaN($("pStudents").value),
+      consents: { terms: $("cTerms").checked === true, privacy: $("cPrivacy").checked === true, authority: $("cAuth").checked === true,
+                  marketing: $("cMarketing").checked === true, termsVersion: L.termsVersion, privacyVersion: L.privacyVersion },
+      clientTime: new Date().toISOString(), website: $("pWebsite").value
+    };
+    var btn = $("pSubmit"), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending your request…";
+    api("/pilot-register", reg).then(function(b){
+      $("pRef").textContent = b.reference || "";
+      $("pDoneT").textContent = b.status === "already_requested" ? "We already have your pilot request" : "Your pilot request has been received";
+      pStep(3); $("pDone").focus();
+    }).catch(function(err){
+      showErr("pError", err.closed
+        ? "Pilot requests open soon: our legal documents are being finalized. Nothing was sent or stored. Your answers are still here."
+        : err.message + " Your pilot request was not submitted. Your answers are still here, so you can try again.");
+    }).then(function(){ btn.disabled = false; btn.textContent = label; });
+  });
+
+  /* ---------- 30% First-Year Licensing Offer: calculator (progressive / marginal tiers) ---------- */
+  var lic = $("lic"), n = 1000, OFFER = { status: "active" };
+  function quoteOf(x, disc){
+    if (!Number.isInteger(x) || x < 50 || x > 100000) return null;
+    var bands = [], std = 0, fy = 0;
+    TIERS.forEach(function(t){
+      if (x < t[0]) return;
+      var cnt = Math.min(x, t[1]) - t[0] + 1, u = disc ? Math.round(t[2] * (100 - DISCOUNT) / 100) : t[2];
+      bands.push({ from: t[0], to: Math.min(x, t[1]), count: cnt, std: t[2], fy: u, fyTotal: cnt * u });
+      std += cnt * t[2]; fy += cnt * u;
+    });
+    return { bands: bands, stdTotal: std, evTotal: fy, save: std - fy, renewal: std };
+  }
+  function discOn(){ return OFFER.status === "active"; }
+  function render(){
+    var disc = discOn(), q = quoteOf(n, disc), valid = Number.isInteger(n) && n > 0;
+    $("customNote").hidden = !valid || !!q;
+    var last = q && q.bands[q.bands.length - 1];
+    $("tierLbl").textContent = q ? (q.bands.length > 1 ? q.bands.length + " pricing tiers" : "1 pricing tier") : (valid ? "Custom pricing" : "");
+    $("stdTotal").textContent = q ? usd(q.stdTotal) : "—";
+    $("evtTotal").textContent = q ? usd(q.evTotal) : (valid ? "Custom" : "—");
+    $("saveTotal").textContent = q ? usd(q.save) : "—";
+    $("unitLine").innerHTML = q
+      ? "Average per student in year one: <b>" + usd(Math.round(q.evTotal / n)) + "</b>" + (disc ? " (standard <s>" + usd(Math.round(q.stdTotal / n)) + "</s>)" : "") +
+        "<br>From year two: <b>" + usd(q.renewal) + "</b> per year at standard rates"
+      : "";
+    $("fyHead").textContent = disc ? "First year (−30%)" : "First year";
+    Array.prototype.forEach.call($("tierRows").children, function(tr, i){
+      var b = q && q.bands[i];
+      tr.setAttribute("aria-current", b ? "true" : "false");
+      tr.lastElementChild.textContent = b ? fmtInt.format(b.count) + " × " + usd(b.fy) + " = " + usd(b.fyTotal) : "—";
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(c){ c.setAttribute("aria-pressed", +c.getAttribute("data-n") === n ? "true" : "false"); });
+    $("qLic").value = valid ? fmtInt.format(n) : "";
+    $("qSubmit").textContent = valid && !q ? "Request custom pricing" : "Request my first-year quote";
+  }
+  $("tierRows").innerHTML = TIERS.map(function(t){
+    return "<tr><td>" + (t[0] === 1 ? "First 500" : fmtInt.format(t[0]) + "–" + fmtInt.format(t[1])) + "</td><td>" + usd(t[2]) + "</td><td>" + usd(Math.round(t[2] * 0.7)) + "</td><td>—</td></tr>";
+  }).join("");
+  function setN(x, fromInput){
+    if (!Number.isInteger(x)) { setInvalid(lic, true); n = NaN; render(); return; }
+    n = Math.max(1, Math.min(9999999, x)); setInvalid(lic, false);
+    if (!fromInput) lic.value = fmtInt.format(n);
+    render();
+  }
+  lic.addEventListener("input", function(){ setN(intOrNaN(lic.value), true); });
+  lic.addEventListener("blur", function(){ if (Number.isInteger(n)) lic.value = fmtInt.format(n); });
+  $("licDec").addEventListener("click", function(){ setN(Math.max(50, (Number.isInteger(n) ? n : 1000) - 50)); });
+  $("licInc").addEventListener("click", function(){ setN((Number.isInteger(n) ? n : 1000) + 50); });
+  Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(c){ c.addEventListener("click", function(){ setN(+c.getAttribute("data-n")); }); });
+  function fmtDay(ymd){ return new Date(ymd + "T12:00:00Z").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }); }
+  function applyOffer(o){
+    OFFER = o || { status: "not_configured" };
+    var st = OFFER.status, note = $("offerNote");
+    $("windowTxt").textContent = st === "active" && OFFER.endsDate ? "Launch offer available until " + fmtDay(OFFER.endsDate) + ". " : "";
+    note.hidden = st === "active";
+    note.textContent = st === "upcoming" ? "The 30% launch offer opens on " + fmtDay(OFFER.launchDate) + ". Prices shown are standard annual prices."
+      : st === "ended" ? "The 30% launch offer has ended. Prices shown are standard annual prices."
+      : "The launch date for the 30% offer has not been set yet. Prices shown are standard annual prices.";
+    var badge = document.querySelector("#tab-offer .badge"); if (badge) badge.hidden = st !== "active";
+    render();
+  }
+  render();
+  if (CFG.preview && CFG.offer) applyOffer(CFG.offer);
+  else fetch(CFG.apiBase.replace(/\/$/, "") + "/config").then(function(r){ return r.json(); }).then(function(j){ applyOffer(j && j.offer); }, function(){ applyOffer(null); });
+
+  /* ---------- Quote request ---------- */
+  var qSubmissionId = uuid();
+  $("quoteForm").addEventListener("submit", function(e){
+    e.preventDefault(); $("qError").classList.remove("show");
+    var first = null;
+    function chk(ok, el, msg){ if (!setInvalid(el, !ok, msg) && !first) first = el; }
+    chk($("qOrg").value.trim().length >= 2, $("qOrg"));
+    chk($("qName").value.trim().length >= 2, $("qName"));
+    if (!checkEmail($("qEmail")) && !first) first = $("qEmail");
+    chk($("qRole").value.trim().length >= 2, $("qRole"));
+    chk(!!$("qType").value, $("qType"));
+    chk(STATES.indexOf($("qState").value) !== -1, $("qState"));
+    if (!Number.isInteger(n) || n < 1){ setInvalid(lic, true); if (!first) first = lic; }
+    var c = $("qConsent").checked; $("qConsentChk").classList.toggle("invalid", !c); if (!c && !first) first = $("qConsent");
+    if (first){ showErr("qError", "Please complete the highlighted fields."); first.focus(); return; }
+    var reg = {
+      submissionId: qSubmissionId, campaign: CFG.campaign, option: "offer", intent: "quote",
+      orgName: $("qOrg").value.trim(), fullName: $("qName").value.trim(), email: $("qEmail").value.trim(),
+      jobTitle: $("qRole").value.trim(), orgType: $("qType").value, state: $("qState").value,
+      licenses: n, consent: true, website: $("qWebsite").value, utm: utm()
+    };
+    var btn = $("qSubmit"), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending your request…";
+    api("/leads", reg).then(function(b){
+      var q = b.quote && b.quote.status === "ok" ? b.quote : null;
+      if (q) q.eventTotalCents = q.firstYearTotalCents;
+      $("qRef").textContent = b.reference || "";
+      $("qDoneT").textContent = b.status === "already_registered" ? "We already have your quote request" : "Your quote request has been received";
+      $("qDoneSum").innerHTML = q
+        ? '<div class="std"><span class="k">Standard annual price</span><span class="v">' + usd(q.standardTotalCents) + '</span></div><div class="now"><span class="k">First-year price · ' + fmtInt.format(q.licenses) + ' students</span><span class="v">' + usd(q.eventTotalCents) + '</span></div><div class="save"><span class="k">You save</span><span class="v"><span>' + usd(q.savingsCents) + "</span></span></div>" + '<div style="grid-column:1/-1;border-left:0;border-top:1px solid var(--line)"><span class="k">From year two (standard rates)</span><span class="v" style="font-size:16px;color:var(--navy)">' + usd(q.renewalAnnualCents) + ' per year</span></div>'
+        : '<div class="now"><span class="k">Students</span><span class="v">' + fmtInt.format(reg.licenses) + '</span></div><div><span class="k">Pricing</span><span class="v" style="font-size:16px;color:var(--navy)">Custom, prepared by our team</span></div>';
+      $("quoteForm").hidden = true; $("qDone").hidden = false; $("qDone").focus();
+    }).catch(function(err){
+      showErr("qError", err.message + " Your quote request was not sent. Your answers are still here, so you can try again.");
+    }).then(function(){ btn.disabled = false; btn.textContent = label; });
+  });
+
+})();
+</script>
+</body>
+</html>
