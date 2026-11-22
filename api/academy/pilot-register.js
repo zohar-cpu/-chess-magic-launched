@@ -10,6 +10,7 @@ import { auditConfigured, writeConsentRecord } from "../../lib/academy/audit.js"
 import { pilotCrmConfigured, savePilotRequest } from "../../lib/academy/pilot-crm.js";
 import { sendEmail, pilotConfirmation } from "../../lib/academy/email.js";
 import { notifySales } from "../../lib/academy/integrations.js";
+import { actionToken } from "../../lib/academy/notion.js";
 
 const hits = new Map();
 function limited(ip) {
@@ -20,7 +21,7 @@ function limited(ip) {
 export default async function handler(req, res) {
   if (!originAllowed(req)) return send(res, 403, { ok: false, error: "Origin not allowed." });
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return send(res, 405, { ok: false, error: "Method not allowed." }); }
-  if (!pilotRegistrationOpen()) return send(res, 503, { ok: false, closed: true, error: "Pilot registration opens soon. Our legal documents are being finalized." });
+  if (!pilotRegistrationOpen()) return send(res, 503, { ok: false, closed: true, error: "Pilot requests are temporarily unavailable. Please try again shortly." });
   const ip = String(req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "").split(",")[0].trim();
   if (limited(ip)) return send(res, 429, { ok: false, error: "Too many submissions. Please wait a few minutes." });
 
@@ -63,8 +64,9 @@ export default async function handler(req, res) {
     console.error("[pilot] Notion error:", e.message);
     return send(res, 502, { ok: false, error: "We couldn't save your pilot request." });
   }
-  if (rec.kind === "retry") return send(res, 200, { ok: true, status: "pilot_requested", reference: rec.reference || reference });
-  if (rec.kind === "duplicate") return send(res, 200, { ok: true, status: "already_requested", reference: rec.reference });
+  const next = { pageId: rec.pageId, token: actionToken(rec.pageId) }; // lets the visitor record "Book an introductory call" on their own record
+  if (rec.kind === "retry") return send(res, 200, { ok: true, status: "pilot_requested", reference: rec.reference || reference, ...next });
+  if (rec.kind === "duplicate") return send(res, 200, { ok: true, status: "already_requested", reference: rec.reference, ...next });
 
   // Confirmation email only after the CRM record exists (EMAIL_MODE decides whether anything is sent).
   const mail = await sendEmail(pilotConfirmation(pilot, reference));
@@ -74,5 +76,5 @@ export default async function handler(req, res) {
     "Status: Pilot Requested. Do not activate student accounts until approvals and any DPA are complete.",
   ]).catch(() => false);
 
-  return send(res, 200, { ok: true, status: "pilot_requested", reference, email: mail.status });
+  return send(res, 200, { ok: true, status: "pilot_requested", reference, email: mail.status, ...next });
 }
