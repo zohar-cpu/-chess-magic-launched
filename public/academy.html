@@ -244,7 +244,7 @@ window.__previewApi = function(path){
     .p-intro .checks li:nth-child(n+3),.p-intro .note,.p-intro .side-art{display:none}
     .progress{gap:8px}.progress li{font-size:12.5px}
     .progress .lbl-l{display:none}.progress .lbl-s{display:inline}
-    .row-btns{flex-direction:column-reverse}.row-btns .btn{width:100%}
+    .row-btns{flex-direction:column-reverse}.row-btns .btn{width:100%}#qNextSteps{flex-direction:column}
     .qty .inp{max-width:none;flex:1 1 auto}
     .sum{grid-template-columns:minmax(0,1fr)}
     .sum>div{flex-direction:row;justify-content:space-between;align-items:center}
@@ -448,8 +448,7 @@ window.__previewApi = function(path){
             <p class="alert" id="qError" role="alert"></p>
             <button type="submit" class="btn btn-gold btn-block" id="qSubmit">Request my first-year quote</button>
             <div class="stack" style="gap:8px;border-top:1px solid var(--line);padding-top:16px">
-              <button type="button" class="btn btn-off btn-block" disabled aria-describedby="signNote">Review &amp; sign license agreement</button>
-              <p class="muted" id="signNote">Online signing opens after the license agreement and pricing are approved by counsel. A quote request is not a binding commitment.</p>
+              <p class="muted" id="signNote">After you request your quote, you can choose to review and sign your agreement or schedule a call with our team. A quote request is not a binding commitment.</p>
             </div>
           </form>
 
@@ -466,11 +465,18 @@ window.__previewApi = function(path){
                 <li>You review it with your procurement team. Nothing is binding until an order form is signed.</li>
               </ol>
             </div>
-            <div class="row-btns" id="qNextSteps" style="margin-top:4px">
-              <button type="button" class="btn btn-line" id="qSign" hidden>Review &amp; Sign Agreement</button>
-              <a class="btn btn-gold" id="qCall" href="https://calendar.app.google/vvBT8eGhgmbRFSX27" target="_blank" rel="noopener">Schedule a call with our team</a>
+            <p class="done-t" style="font-size:17px;margin:4px 0 0">Choose your next step</p>
+            <div class="row-btns" id="qNextSteps">
+              <button type="button" class="btn btn-gold" id="qSign" style="flex:1 1 0" aria-expanded="false" aria-controls="qSignPanel">Review &amp; Sign Agreement</button>
+              <a class="btn btn-gold" id="qCall" href="https://calendar.app.google/vvBT8eGhgmbRFSX27" target="_blank" rel="noopener" style="flex:1 1 0">Schedule a Call</a>
             </div>
-            <p class="small" id="qCallNote">Want to talk first? Opens the ChessMagic booking calendar in a new tab. Requesting a call creates no purchase obligation, and you don't need to sign anything.</p>
+            <div id="qSignPanel" hidden>
+              <label class="check" id="qAuthChk"><input type="checkbox" id="qAuth"><span>I confirm that I am authorized to sign licensing agreements on behalf of this organization.</span></label>
+              <p class="alert" id="qSignErr" role="alert"></p>
+              <button type="button" class="btn btn-gold btn-block" id="qSignGo" style="margin-top:12px">Request my agreement</button>
+            </div>
+            <p class="info" id="qSignDone" hidden role="status"></p>
+            <p class="small" id="qCallNote">Schedule a Call opens the ChessMagic booking calendar in a new tab. Requesting a call creates no purchase obligation, and you don't need to sign anything.</p>
             <button type="button" class="link" data-go="pilot">Prefer to try it first? Request a free 30-day pilot</button>
           </div>
         </div>
@@ -570,9 +576,35 @@ window.__previewApi = function(path){
       .then(function(r){ if (r.ok && note) note.textContent = "Thank you! Pick a time in the booking calendar. Our team has noted that you'd like a call. Requesting a call creates no purchase obligation."; })
       .catch(function(){});
   }
+  var callSent = {};
   document.addEventListener("click", function(e){
     var a = e.target.closest && e.target.closest("#pCall, #qCall"); if (!a) return;
-    recordCall(a.id === "pCall" ? "pilot" : "quote", a.id === "pCall" ? "pCallNote" : "qCallNote");
+    var kind = a.id === "pCall" ? "pilot" : "quote";
+    if (callSent[kind]) return; callSent[kind] = true; // record once per visit; the booking page still opens every time
+    recordCall(kind, a.id === "pCall" ? "pCallNote" : "qCallNote");
+  });
+  /* Review & Sign: the contact confirms signing authority; the request is saved on their own Notion record
+     (Agreement Status "Pending (sales to send)"). The website never sends or signs an agreement itself. */
+  document.addEventListener("click", function(e){
+    if (e.target.closest && e.target.closest("#qSign")) {
+      var panel = $("qSignPanel"); panel.hidden = !panel.hidden; $("qSign").setAttribute("aria-expanded", String(!panel.hidden));
+      if (!panel.hidden) $("qAuth").focus();
+      return;
+    }
+    if (!(e.target.closest && e.target.closest("#qSignGo"))) return;
+    var n = NEXT.quote, err = $("qSignErr"); err.classList.remove("show");
+    if (!$("qAuth").checked) { $("qAuthChk").classList.add("invalid"); showErr("qSignErr", "Please confirm that you are authorized to sign for this organization."); $("qAuth").focus(); return; }
+    $("qAuthChk").classList.remove("invalid");
+    if (!n || !n.pageId || !n.token) { showErr("qSignErr", "Please submit your quote request first."); return; }
+    var btn = $("qSignGo"), label = btn.textContent; btn.disabled = true; btn.textContent = "Saving your request…";
+    api("/lead-action", { action: "sign_review", pageId: n.pageId, token: n.token, authorized: true }).then(function(){
+      $("qSignPanel").hidden = true; $("qSign").disabled = true; $("qSign").setAttribute("aria-expanded", "false");
+      var done = $("qSignDone");
+      done.textContent = "Thank you. Our team will send your personalized agreement for secure electronic signature.";
+      done.hidden = false; done.focus && done.focus();
+    }).catch(function(err2){
+      showErr("qSignErr", err2.message + " Your request was not saved. Please try again.");
+    }).then(function(){ btn.disabled = false; btn.textContent = label; });
   });
   function showErr(id, msg){ var a = $(id); a.textContent = msg; a.classList.add("show"); }
   function api(path, payload){
@@ -639,7 +671,7 @@ window.__previewApi = function(path){
       pStep(3); $("pDone").focus();
     }).catch(function(err){
       showErr("pError", err.closed
-        ? "Pilot requests open soon: our legal documents are being finalized. Nothing was sent or stored. Your answers are still here."
+        ? "Pilot requests are temporarily unavailable. Nothing was sent or stored. Your answers are still here, so please try again shortly."
         : err.message + " Your pilot request was not submitted. Your answers are still here, so you can try again.");
     }).then(function(){ btn.disabled = false; btn.textContent = label; });
   });

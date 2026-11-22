@@ -21,7 +21,7 @@ function limited(ip) {
 export default async function handler(req, res) {
   if (!originAllowed(req)) return send(res, 403, { ok: false, error: "Origin not allowed." });
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return send(res, 405, { ok: false, error: "Method not allowed." }); }
-  if (!pilotRegistrationOpen()) return send(res, 503, { ok: false, closed: true, error: "Pilot registration opens soon. Our legal documents are being finalized." });
+  if (!pilotRegistrationOpen()) return send(res, 503, { ok: false, closed: true, error: "Pilot requests are temporarily unavailable. Please try again shortly." });
   const ip = String(req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "").split(",")[0].trim();
   if (limited(ip)) return send(res, 429, { ok: false, error: "Too many submissions. Please wait a few minutes." });
 

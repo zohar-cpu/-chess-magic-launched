@@ -1,6 +1,8 @@
 // POST /api/lead-action — Step 2 after a successful registration.
-//   Option A "sign_review":   records signing interest. Binding e-signature stays
-//                             DISABLED until SIGNING_ENABLED=true (after legal approval).
+//   "sign_review":   the contact confirmed signing authority; Agreement Status → "Pending (sales to send)".
+//                    The website never sends or signs agreements: sales sends the approved GT agreement
+//                    through Dropbox Sign and sets "Signed" after Dropbox Sign confirms completion.
+//   "schedule_call": the contact opened the ChessMagic booking page (no obligation, no signing).
 //   Option B "request_offer": records the offer request + follow-up preference.
 // Works only on the visitor's own LaunchEd record (HMAC token) and never overwrites.
 import { validateAction } from "../../lib/academy/validate.js";
@@ -37,6 +39,7 @@ export default async function handler(req, res) {
   return send(res, 200, {
     ok: true,
     action: action.action,
-    signingEnabled: false, // binding signatures are off until the agreement is approved
+    recorded: rec?.changed !== false ? "recorded" : "already_recorded",
+    signingEnabled: false, // the website never sends or signs agreements; sales sends them through Dropbox Sign
   });
 }
