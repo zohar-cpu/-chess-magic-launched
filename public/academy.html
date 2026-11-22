@@ -381,6 +381,10 @@ window.__previewApi = function(path){
                 <li>Student accounts are activated only then, and your 30 days begin.</li>
               </ol>
             </div>
+            <div class="row-btns" id="pNextSteps" style="margin-top:4px">
+              <a class="btn btn-gold" id="pCall" href="https://calendar.app.google/vvBT8eGhgmbRFSX27" target="_blank" rel="noopener">Book an introductory call</a>
+            </div>
+            <p class="small" id="pCallNote">Opens the ChessMagic booking calendar in a new tab. Booking a call creates no purchase obligation.</p>
             <p class="small">No student accounts have been created. This request is not a purchase and creates no license commitment.</p>
             <button type="button" class="link" data-go="offer">Also curious about pricing? See the 30% first-year offer</button>
           </div>
@@ -462,6 +466,11 @@ window.__previewApi = function(path){
                 <li>You review it with your procurement team. Nothing is binding until an order form is signed.</li>
               </ol>
             </div>
+            <div class="row-btns" id="qNextSteps" style="margin-top:4px">
+              <button type="button" class="btn btn-line" id="qSign" hidden>Review &amp; Sign Agreement</button>
+              <a class="btn btn-gold" id="qCall" href="https://calendar.app.google/vvBT8eGhgmbRFSX27" target="_blank" rel="noopener">Schedule a call with our team</a>
+            </div>
+            <p class="small" id="qCallNote">Want to talk first? Opens the ChessMagic booking calendar in a new tab. Requesting a call creates no purchase obligation, and you don't need to sign anything.</p>
             <button type="button" class="link" data-go="pilot">Prefer to try it first? Request a free 30-day pilot</button>
           </div>
         </div>
@@ -550,6 +559,21 @@ window.__previewApi = function(path){
     if (FREE.indexOf(em.split("@")[1]) !== -1) return setInvalid(input, true, "Please use your work (school or district) email address.");
     return setInvalid(input, false);
   }
+  /* Next step after a saved request: the booking link opens in a new tab (never blocked), and the choice is
+     recorded on the visitor's own Notion record in the background. Requesting a call needs no signing. */
+  var NEXT = { pilot: null, quote: null };
+  function recordCall(kind, noteId){
+    var n = NEXT[kind]; if (!n || !n.pageId || !n.token) return;
+    var note = $(noteId);
+    fetch(CFG.apiBase.replace(/\/$/, "") + "/lead-action", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageId: n.pageId, token: n.token, action: "schedule_call" }) })
+      .then(function(r){ if (r.ok && note) note.textContent = "Thank you! Pick a time in the booking calendar. Our team has noted that you'd like a call. Requesting a call creates no purchase obligation."; })
+      .catch(function(){});
+  }
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest("#pCall, #qCall"); if (!a) return;
+    recordCall(a.id === "pCall" ? "pilot" : "quote", a.id === "pCall" ? "pCallNote" : "qCallNote");
+  });
   function showErr(id, msg){ var a = $(id); a.textContent = msg; a.classList.add("show"); }
   function api(path, payload){
     if (CFG.preview && window.__previewApi) return window.__previewApi(path, payload);
@@ -610,7 +634,7 @@ window.__previewApi = function(path){
     };
     var btn = $("pSubmit"), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending your request…";
     api("/pilot-register", reg).then(function(b){
-      $("pRef").textContent = b.reference || "";
+      $("pRef").textContent = b.reference || ""; NEXT.pilot = { pageId: b.pageId, token: b.token };
       $("pDoneT").textContent = b.status === "already_requested" ? "We already have your pilot request" : "Your pilot request has been received";
       pStep(3); $("pDone").focus();
     }).catch(function(err){
@@ -711,7 +735,7 @@ window.__previewApi = function(path){
     api("/leads", reg).then(function(b){
       var q = b.quote && b.quote.status === "ok" ? b.quote : null;
       if (q) q.eventTotalCents = q.firstYearTotalCents;
-      $("qRef").textContent = b.reference || "";
+      $("qRef").textContent = b.reference || ""; NEXT.quote = { pageId: b.pageId, token: b.token };
       $("qDoneT").textContent = b.status === "already_registered" ? "We already have your quote request" : "Your quote request has been received";
       $("qDoneSum").innerHTML = q
         ? '<div class="std"><span class="k">Standard annual price</span><span class="v">' + usd(q.standardTotalCents) + '</span></div><div class="now"><span class="k">First-year price · ' + fmtInt.format(q.licenses) + ' students</span><span class="v">' + usd(q.eventTotalCents) + '</span></div><div class="save"><span class="k">You save</span><span class="v"><span>' + usd(q.savingsCents) + "</span></span></div>" + '<div style="grid-column:1/-1;border-left:0;border-top:1px solid var(--line)"><span class="k">From year two (standard rates)</span><span class="v" style="font-size:16px;color:var(--navy)">' + usd(q.renewalAnnualCents) + ' per year</span></div>'

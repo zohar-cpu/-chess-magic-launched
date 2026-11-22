@@ -18,16 +18,17 @@ export default async function handler(req, res) {
   if (!notionConfigured()) return send(res, 503, { ok: false, error: "Our service is temporarily unavailable." });
   if (!verifyActionToken(action.pageId, action.token)) return send(res, 403, { ok: false, error: "This session has expired. Please contact us." });
 
-  let page;
+  let page, rec;
   try {
     page = await getLaunchEdPage(action.pageId);
-    await recordVisitorAction(page, action);
+    rec = await recordVisitorAction(page, action);
   } catch (e) {
     console.error("[lead-action]", e.message);
     return send(res, e.status === 403 ? 403 : 502, { ok: false, error: "We couldn't save your request." });
   }
 
   const org = (page.properties?.Name?.title || []).map((t) => t.plain_text).join("");
+  if (action.action === "schedule_call") return send(res, 200, { ok: true, action: action.action, recorded: rec?.changed !== false ? "recorded" : "already_recorded" });
   await notifySales(action.action === "sign_review" ? `[LaunchEd] Option A: wants to sign · ${org}` : `[LaunchEd] Option B: offer requested · ${org}`, [
     `Notion: ${page.url}`,
     action.action === "request_offer" ? `Follow-up: ${action.method}, ${action.preferredTime}` : "Signing authority confirmed; e-signature not yet enabled.",
