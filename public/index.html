@@ -880,8 +880,8 @@
       '<div class="of-band">DRAFT FOR REVIEW ONLY · NOT FOR SIGNATURE · Final legal terms pending approval</div>' +
       '<h4>CHESS-MAGIC INC. | U.S. LICENSE ORDER FORM</h4><p class="of-sub">LaunchEd Showcase 2026</p>' +
       '<div class="of-2">' + line("Order Date", '<span class="tbd">[At signature]</span>') + line("Offer Reference", "LaunchEd Showcase 2026 · " + esc(b.reference)) + '</div>' +
-      '<p>This License Order Form (the "Order Form") is entered into by Chess-Magic Inc., a Florida corporation (the "Company"), and the Customer identified below, and incorporates the attached License Terms, EULA (to the extent applicable), and any executed Data Protection Addendum (collectively, the "Agreement").</p>' +
-      '<p>This Order Form states the commercial terms for annual student licenses to the Chess Magic platform. This proposed Order Form and event pricing are subject to the Company\'s written acceptance and completion of any required Customer procurement approval.</p>' +
+      '<p>This License Order Form (the “Order Form”) is entered into pursuant to and forms an integral part of the License Agreement between Chess Magic and the Customer identified below (the “License Agreement”).</p>' +
+      '<p>This Order Form sets forth the commercial terms applicable to the Customer’s purchase of licenses to access and use the Chess Magic platform. Unless expressly stated otherwise herein, all terms and conditions of the License Agreement shall apply to this Order Form and to all licenses purchased hereunder.</p>' +
       '<h5>CUSTOMER INFORMATION</h5>' +
       line("Legal Customer / Organization Name", esc(r.orgName)) +
       line("District / Charter School / Charter School Network", esc(r.orgType)) +
@@ -890,12 +890,13 @@
       line("Official Work Email", esc(r.email)) + line("Phone", r.phone ? esc(r.phone) : TBD) +
       '<h5>PRICING SCHEDULE</h5><div class="of-tw"><table class="of-t"><thead><tr><th>Number of Student Licenses</th><th>Standard Annual Price / Student (USD)</th><th>Event Discount</th><th>LaunchEd Annual Price / Student (USD)</th><th>Annual Order Value</th><th>Notes</th></tr></thead><tbody>' + tiers + '</tbody></table></div>' +
       '<h5>INCORPORATION OF LICENSE AGREEMENT</h5>' +
-      '<p>This Order Form, the attached License Terms, the applicable EULA, and any fully executed data protection addendum form the Agreement. No student data will be imported or activated until the required privacy and security documentation is completed.</p>' +
-      '<p>Order Form commercial terms (quantity, pricing, payment schedule, dates, and expressly identified exceptions) control over conflicting general License Terms. A mutually executed Data Protection Addendum controls with respect to student personal data. Otherwise, the License Terms prevail over the EULA for Customer contractual matters. Mandatory applicable law controls in all cases.</p>' +
+      '<p>This Order Form forms an integral part of the License Agreement. The License Agreement and this Order Form together constitute the binding agreement between Chess Magic and the Customer with respect to the licenses purchased hereunder.</p>' +
+      '<p>In the event of any conflict or inconsistency between this Order Form and the License Agreement, the terms of the License Agreement shall prevail, unless expressly stated otherwise in this Order Form.</p>' +
       '<h5>CUSTOMER ACKNOWLEDGMENT AND ACCEPTANCE</h5>' +
-      '<p>By signing, the Customer acknowledges receipt of this Order Form, License Terms and any documents expressly incorporated by reference and confirms that the documents were accessible for review and retention before signing.</p>' +
-      '<p>The Customer requests the licenses specified below, subject to the Company\'s acceptance and applicable procurement and payment conditions stated in this Order Form.</p>' +
-      '<p>The individual signing for the Customer represents that they are authorized to do so, and that any necessary board, procurement, budget or other approvals have been obtained. A person without such authority should use the nonbinding "Request My Exclusive Offer" path instead.</p>' +
+      '<p>By signing this Order Form, the Customer acknowledges and confirms that it has received, reviewed, read, and understood the License Agreement and all applicable terms and conditions incorporated therein.</p>' +
+      '<p>The Customer expressly agrees to be legally bound by the License Agreement in its entirety, together with this Order Form, as if the License Agreement were fully set forth herein. The Customer’s signature on this Order Form constitutes its acceptance of all terms and conditions of the License Agreement.</p>' +
+      '<p>The individual signing this Order Form on behalf of the Customer represents and warrants that he or she is duly authorized to execute this Order Form and to legally bind the Customer to this Order Form and the License Agreement.</p>' +
+      '<p class="of-ph">A person without such authority should use the nonbinding "Request My Exclusive Offer" path instead.</p>' +
       '<h5>ORDER DETAILS</h5>' +
       line("Number of Student Licenses Purchased", fmtInt.format(r.licenses)) +
       line("Annual Price per Student License (USD)", ok ? money(q.eventUnitCents, true) + ' <small>(standard ' + money(q.standardUnitCents, true) + ', 30% LaunchEd discount)</small>' : '<span class="tbd">[CUSTOM QUOTE]</span>') +

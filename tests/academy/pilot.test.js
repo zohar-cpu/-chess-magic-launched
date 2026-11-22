@@ -33,10 +33,12 @@ test("pilot: student data fields are refused", () => {
 test("pilot: personal email domains refused", () => {
   const b = good(); b.email = "dana@gmail.com"; assert.equal(validatePilot(b).ok, false);
 });
-test("release gate: closed while documents are drafts, even if the flag is set", () => {
-  process.env.PILOT_REGISTRATION_OPEN = "true";
-  assert.equal(/DRAFT/.test(LEGAL.terms.version), true);
+test("release gate: pilot requests open only when PILOT_REGISTRATION_OPEN=true", () => {
+  delete process.env.PILOT_REGISTRATION_OPEN;
   assert.equal(pilotRegistrationOpen(), false);
+  process.env.PILOT_REGISTRATION_OPEN = "true";
+  assert.equal(/DRAFT/.test(LEGAL.terms.version + LEGAL.privacy.version), false);
+  assert.equal(pilotRegistrationOpen(), true);
   delete process.env.PILOT_REGISTRATION_OPEN;
 });
 test("page shows exactly the consent text the server records", () => {
@@ -58,10 +60,11 @@ test("pilot lifecycle: 30 days start on activation, never on submission", () => 
   assert.equal(SUBMISSION_STATE.pilotStartDate, null);
   assert.equal(SUBMISSION_STATE.pilotStatus, "Pilot Requested");
 });
-test("activation gate: off globally until documents are approved, and needs school approval + DPA", () => {
+test("activation gate: hard-locked in code, and needs school approval + DPA", () => {
   const ready = { schoolApproval: "Received", dpaStatus: "Signed", pilotStatus: "Pilot Approved", pilotStartDate: null };
-  process.env.STUDENT_ACTIVATION_ENABLED = "true";
-  assert.equal(studentActivationEnabled(), false, "draft documents keep activation off even when the switch is on");
+  process.env.STUDENT_ACTIVATION_ENABLED = "true"; process.env.PILOT_REGISTRATION_OPEN = "true";
+  assert.equal(studentActivationEnabled(), false, "activation stays off even when every setting is on");
+  delete process.env.PILOT_REGISTRATION_OPEN;
   assert.equal(activationCheck(ready).ready, false);
   delete process.env.STUDENT_ACTIVATION_ENABLED;
   const miss = activationCheck({ schoolApproval: "Not received", dpaStatus: "To be determined", pilotStatus: "Pilot Requested" }).missing;

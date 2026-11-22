@@ -47,9 +47,10 @@ test("academy campaign: pilot + offer", () => {
   const ov = validateLead({ ...base, option: "offer", licenses: 1000 });
   assert.equal(ov.ok, true);
   const op = buildPage({ ...ov.lead, utm: {}, isTest: false }, quote(1000), { reference: "LE26-Y" });
-  assert.equal(op.properties["Campaign Option"].select.name, "30% Launch Offer");
+  assert.equal(op.properties["Lead Source"].select.name, "ChessMagic Academy Launch");
   assert.equal(op.properties["Annual Contract Value"].number, 36750);
-  assert.equal(op.properties["Renewal Annual Price"].number, 52500);
+  assert.match(JSON.stringify(op.children), /renewal \(year 2\+\) at standard rates: \$52,500\.00/);
+  for (const k of ["Campaign Option", "Renewal Annual Price", "Offer Valid Until", "LaunchEd Path"]) assert.equal(op.properties[k], undefined, k); // live dashboard columns only
   // showcase requests (no campaign) behave exactly as before
   const sv = validateLead({ ...base, campaign: undefined, licenses: 1000 });
   assert.equal(sv.ok, true); assert.equal(sv.lead.campaign, "showcase-2026");
@@ -58,22 +59,22 @@ test("academy campaign: pilot + offer", () => {
   assert.equal(sp.properties["Campaign Option"], undefined);
 });
 
-test("email-campaign quote request is recorded as 'Request a Quote' and never as a signing", async () => {
+test("email-campaign quote request is recorded as a non-binding quote request and never as a signing", async () => {
   const { buildPage } = await import("../../lib/academy/notion.js");
   const base = { submissionId: "abcdef12-3456", fullName: "Jane Doe", email: "jane@district.org", jobTitle: "Director",
     orgName: "Sample USD", orgType: "School District", state: "Texas", licenses: 1000, consent: true,
     campaign: "academy-2026", option: "offer", intent: "quote" };
   const { lead } = validateLead(base);
   const p = buildPage(lead, quote(1000), { reference: "LE26-TEST" });
-  assert.equal(p.properties["LaunchEd Path"].select.name, "Request a Quote");
+  assert.equal(p.properties["LaunchEd Path"], undefined);
+  assert.match(JSON.stringify(p.children), /Quote request only \(non-binding\)/);
   assert.equal(p.properties["Agreement Status"].select.name, "Not sent");
   assert.equal(p.properties["Sales Status"].status.name, "Not started");
   assert.equal(p.properties["Annual Contract Value"].number, 36750);
   assert.equal(p.properties["Annual Savings"].number, 15750);
-  assert.equal(p.properties["Renewal Annual Price"].number, 52500);
-  assert.equal(p.properties["Offer Valid Until"], undefined); // only set when the window is active
+  assert.doesNotMatch(JSON.stringify(p.children), /offer valid until/); // only shown when the window is active
   const p2 = buildPage({ ...lead, offerEnds: "2026-12-30" }, quote(1000), { reference: "LE26-TEST" });
-  assert.equal(p2.properties["Offer Valid Until"].date.start, "2026-12-30");
+  assert.match(JSON.stringify(p2.children), /offer valid until 2026-12-30/);
   const p3 = buildPage({ ...lead, offerEnds: null }, quote(1000, { discount: false }), { reference: "LE26-TEST" });
   assert.equal(p3.properties["Annual Contract Value"].number, 52500); assert.equal(p3.properties["LaunchEd Discount"], undefined);
 });

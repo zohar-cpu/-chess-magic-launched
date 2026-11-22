@@ -78,7 +78,7 @@ export default async function handler(req, res) {
       return send(res, 200, { ok: true, status: "already_registered", option: lead.option, reference: existing.reference, ...(q ? { quote: publicQuote(q, lead.licenses) } : {}) });
     }
 
-    const reference = "LE26-" + crypto.createHash("sha256").update(lead.submissionId).digest("hex").slice(0, 8).toUpperCase();
+    const reference = (lead.campaign === "academy-2026" ? "QUOTE-" : "LE26-") + crypto.createHash("sha256").update(lead.submissionId).digest("hex").slice(0, 8).toUpperCase();
     let page;
     try { page = await createLeadPage(lead, q, { reference }); }
     catch (e) { console.error("[leads] Notion create error:", e.message); return send(res, 502, { ok: false, error: "We couldn't save your registration." }); }

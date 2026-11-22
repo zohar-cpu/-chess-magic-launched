@@ -31,15 +31,23 @@ export default async function handler(req, res) {
   pilot.isTest = /^\s*\[TEST\]\s*/i.test(pilot.orgName);
   if (pilot.isTest) pilot.orgName = pilot.orgName.replace(/^\s*\[TEST\]\s*/i, "").trim() || "Test School";
 
-  if (!auditConfigured() || !pilotCrmConfigured()) {
-    console.error("[pilot] audit store or Notion contacts not configured");
+  // Simple intake: the Notion record (with the consent proof in its page body) is the record of the
+  // request. The separate consent database is optional and used only if DATABASE_URL is configured.
+  if (!pilotCrmConfigured()) {
+    console.error("[pilot] Notion is not configured");
     return send(res, 503, { ok: false, error: "Pilot registration is temporarily unavailable." });
   }
 
   const reference = "PILOT-" + crypto.createHash("sha256").update(pilot.submissionId).digest("hex").slice(0, 8).toUpperCase();
   const ipHash = ip ? crypto.createHmac("sha256", process.env.NOTION_API_TOKEN || "").update("ip:" + ip).digest("hex").slice(0, 32) : null;
 
-  try {
+  const consent = {
+    at: new Date().toISOString(),
+    termsName: LEGAL.terms.name, termsVersion: LEGAL.terms.version, termsText: CONSENT_TEXT.terms,
+    privacyName: LEGAL.privacy.name, privacyVersion: LEGAL.privacy.version, privacyUrl: LEGAL.privacy.url, privacyText: CONSENT_TEXT.privacy,
+    authorityText: CONSENT_TEXT.authority, marketingText: CONSENT_TEXT.marketing,
+  };
+  if (auditConfigured()) try {
     await writeConsentRecord({
       ...pilot, reference, termsVersion: LEGAL.terms.version, privacyVersion: LEGAL.privacy.version,
       texts: CONSENT_TEXT, ipHash, userAgent: req.headers["user-agent"], clientTime: body.clientTime,
@@ -50,7 +58,7 @@ export default async function handler(req, res) {
   }
 
   let rec;
-  try { rec = await savePilotRequest(pilot, reference); }
+  try { rec = await savePilotRequest(pilot, reference, consent); }
   catch (e) {
     console.error("[pilot] Notion error:", e.message);
     return send(res, 502, { ok: false, error: "We couldn't save your pilot request." });
@@ -58,7 +66,7 @@ export default async function handler(req, res) {
   if (rec.kind === "retry") return send(res, 200, { ok: true, status: "pilot_requested", reference: rec.reference || reference });
   if (rec.kind === "duplicate") return send(res, 200, { ok: true, status: "already_requested", reference: rec.reference });
 
-  // Confirmation email only after BOTH the consent record and the CRM record exist.
+  // Confirmation email only after the CRM record exists (EMAIL_MODE decides whether anything is sent).
   const mail = await sendEmail(pilotConfirmation(pilot, reference));
   await notifySales(`[Academy PILOT]${pilot.isTest ? " [TEST]" : ""} ${pilot.orgName} (${pilot.state})`, [
     `${pilot.fullName}, ${pilot.jobTitle} · ${pilot.email}`, `~${pilot.pilotStudents} students · Ref ${reference}`,

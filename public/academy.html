@@ -18,8 +18,8 @@
     apiBase: "/api/academy",
     campaign: "academy-2026",
     /* Offer window comes from the server (/api/config, set by CAMPAIGN_LAUNCH_DATE). */
-    legal: {"termsVersion": "PILOT-TERMS-DRAFT-2026-11-18", "privacyVersion": "PRIVACY-NOTICE-DRAFT-2026-11-18", "status": "draft"},
-    preview: true,       /* PREVIEW: registration switched off; nothing is sent or stored */
+    legal: {"termsVersion": "PILOT-REQUEST-ACK-2026-11-22", "privacyVersion": "CHESSMAGIC-PRIVACY-2026-09-25", "status": "published"},
+    preview: false,      /* live: requests are sent to the server (which still enforces its own gates) */
     offer: { status: "active", launchDate: null, endsDate: null }
   };
 </script>
@@ -353,8 +353,8 @@ window.__previewApi = function(path){
               <div class="recap"><span id="pRecap"></span><button type="button" class="link" id="pEdit">Edit<span class="sr"> school details</span></button></div>
               <fieldset class="acks">
                 <legend id="pAckH" tabindex="-1">Required to request a pilot</legend>
-                <label class="check"><input type="checkbox" id="cTerms"><span data-consent="terms">I have read and accept the <a href="/legal/pilot-terms.html" target="_blank" rel="noopener">ChessMagic Academy 30-Day Pilot Terms of Use</a>.</span></label>
-                <label class="check"><input type="checkbox" id="cPrivacy"><span data-consent="privacy">I acknowledge the <a href="/legal/privacy-notice.html" target="_blank" rel="noopener">Chess-Magic Inc. Privacy Notice</a>, which explains how the information in this form is used.</span></label>
+                <label class="check"><input type="checkbox" id="cTerms"><span data-consent="terms">I understand this is a non-binding request, not a purchase or a signed agreement. Any pilot is governed by Chess Magic's License Terms, provided in a Pilot Order Form for signature before activation.</span></label>
+                <label class="check"><input type="checkbox" id="cPrivacy"><span data-consent="privacy">I acknowledge the <a href="https://chessmagic.academy/privacy" target="_blank" rel="noopener">Chess Magic Privacy Policy</a>, which explains how the information in this form is used.</span></label>
                 <label class="check"><input type="checkbox" id="cAuth"><span data-consent="authority">I confirm that I am authorized by my school or organization to request this pilot. I understand that no student accounts will be activated, and no student information may be shared with Chess-Magic Inc., until my school or organization has given all required approvals and any required student data protection agreement has been signed.</span></label>
               </fieldset>
               <label class="check" style="border-top:1px solid var(--line);padding-top:14px;color:var(--ink-2);font-size:14px"><input type="checkbox" id="cMarketing"><span data-consent="marketing">Optional: send me occasional emails about ChessMagic Academy news and offers. I can unsubscribe at any time. This is not required for the pilot.</span></label>
@@ -439,7 +439,7 @@ window.__previewApi = function(path){
               <div class="f"><label for="qState">State</label><select class="inp" id="qState" aria-describedby="qStateErr"><option value="">Select state</option></select><p class="err" id="qStateErr">Select your state.</p></div>
               <div class="f"><label for="qLic">Student licenses</label><input class="inp" id="qLic" readonly aria-describedby="qLicHelp"><p class="muted" id="qLicHelp" style="margin-top:6px">Change the number in the calculator.</p></div>
             </div>
-            <label class="check" id="qConsentChk"><input type="checkbox" id="qConsent"><span>I agree that Chess Magic may store my details and contact me about this quote.</span></label>
+            <label class="check" id="qConsentChk"><input type="checkbox" id="qConsent"><span>I agree that Chess Magic may store my details and contact me about this quote, as described in the <a href="https://chessmagic.academy/privacy" target="_blank" rel="noopener">Chess Magic Privacy Policy</a>.</span></label>
             <input type="text" id="qWebsite" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
             <p class="alert" id="qError" role="alert"></p>
             <button type="submit" class="btn btn-gold btn-block" id="qSubmit">Request my first-year quote</button>
@@ -473,7 +473,7 @@ window.__previewApi = function(path){
 <footer>
   <div class="wrap">
     <span>© <span id="yr">2026</span> Chess-Magic Inc.</span>
-    <span><a href="/legal/pilot-terms.html">Pilot Terms</a> · <a href="/legal/privacy-notice.html">Privacy Notice</a> (pending legal approval)</span>
+    <span><a href="https://chessmagic.academy/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
   </div>
 </footer>
 
